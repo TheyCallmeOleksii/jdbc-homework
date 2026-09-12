@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class DatabasePopulateService {
     public static void main(String[] args) {
-        String sqlFilePath = "sql/populate_db.sql";
+        String sqlFilePath = "src/main/resources/sql/populate_db.sql";
 
         try {
             String sql = new String(Files.readAllBytes(Paths.get(sqlFilePath)));

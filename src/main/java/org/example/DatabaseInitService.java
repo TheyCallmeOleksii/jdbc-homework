@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class DatabaseInitService {
     public static void main(String[] args) {
-        String sqlFilePath = "sql/init_db.sql";
+        String sqlFilePath = "src/main/resources/sql/init_db.sql";
 
         try {
             String sql = new String(Files.readAllBytes(Paths.get(sqlFilePath)));

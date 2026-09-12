@@ -11,11 +11,20 @@ import java.util.List;
 
 public class DatabaseQueryService {
 
+    private static String readSqlFile(String fileName) {
+        String filePath = "src/main/resources/sql/" + fileName;
+        try {
+            return new String(Files.readAllBytes(Paths.get(filePath)));
+        } catch (IOException e) {
+            throw new RuntimeException("Помилка читання файлу: " + filePath, e);
+        }
+    }
+
     public List<MaxProjectCountClient> findMaxProjectsClient() {
         List<MaxProjectCountClient> result = new ArrayList<>();
-        String sqlFilePath = "sql/find_max_projects_client.sql";
+        String sql = readSqlFile("find_max_projects_client.sql");
+
         try {
-            String sql = new String(Files.readAllBytes(Paths.get(sqlFilePath)));
             Connection connection = Database.getInstance().getConnection();
             try (Statement statement = connection.createStatement();
                  ResultSet rs = statement.executeQuery(sql)) {
@@ -25,7 +34,7 @@ public class DatabaseQueryService {
                     result.add(new MaxProjectCountClient(name, count));
                 }
             }
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
@@ -33,9 +42,9 @@ public class DatabaseQueryService {
 
     public List<LongestProject> findLongestProject() {
         List<LongestProject> result = new ArrayList<>();
-        String sqlFilePath = "sql/find_longest_project.sql";
+        String sql = readSqlFile("find_longest_project.sql");
+
         try {
-            String sql = new String(Files.readAllBytes(Paths.get(sqlFilePath)));
             Connection connection = Database.getInstance().getConnection();
             try (Statement statement = connection.createStatement();
                  ResultSet rs = statement.executeQuery(sql)) {
@@ -45,7 +54,7 @@ public class DatabaseQueryService {
                     result.add(new LongestProject(name, monthCount));
                 }
             }
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
@@ -53,9 +62,9 @@ public class DatabaseQueryService {
 
     public List<MaxSalaryWorker> findMaxSalaryWorker() {
         List<MaxSalaryWorker> result = new ArrayList<>();
-        String sqlFilePath = "sql/find_max_salary_worker.sql";
+        String sql = readSqlFile("find_max_salary_worker.sql");
+
         try {
-            String sql = new String(Files.readAllBytes(Paths.get(sqlFilePath)));
             Connection connection = Database.getInstance().getConnection();
             try (Statement statement = connection.createStatement();
                  ResultSet rs = statement.executeQuery(sql)) {
@@ -65,7 +74,7 @@ public class DatabaseQueryService {
                     result.add(new MaxSalaryWorker(name, salary));
                 }
             }
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
@@ -73,9 +82,9 @@ public class DatabaseQueryService {
 
     public List<YoungestEldestWorker> findYoungestEldestWorkers() {
         List<YoungestEldestWorker> result = new ArrayList<>();
-        String sqlFilePath = "sql/find_youngest_eldest_workers.sql";
+        String sql = readSqlFile("find_youngest_eldest_workers.sql");
+
         try {
-            String sql = new String(Files.readAllBytes(Paths.get(sqlFilePath)));
             Connection connection = Database.getInstance().getConnection();
             try (Statement statement = connection.createStatement();
                  ResultSet rs = statement.executeQuery(sql)) {
@@ -86,7 +95,7 @@ public class DatabaseQueryService {
                     result.add(new YoungestEldestWorker(type, name, birthday));
                 }
             }
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
@@ -94,26 +103,21 @@ public class DatabaseQueryService {
 
     public List<ProjectPrice> printProjectPrices() {
         List<ProjectPrice> result = new ArrayList<>();
-        String sqlFilePath = "sql/print_project_prices.sql";
+        String sql = readSqlFile("print_project_prices.sql");
 
         try {
-            String sql = new String(Files.readAllBytes(Paths.get(sqlFilePath)));
             Connection connection = Database.getInstance().getConnection();
-
             try (Statement statement = connection.createStatement();
                  ResultSet rs = statement.executeQuery(sql)) {
-
                 while (rs.next()) {
                     String name = rs.getString("NAME");
                     int price = rs.getInt("PRICE");
-
                     result.add(new ProjectPrice(name, price));
                 }
             }
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return result;
     }
 

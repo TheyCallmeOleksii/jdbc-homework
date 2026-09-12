@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS project_worker;
+DROP TABLE IF EXISTS project;
+DROP TABLE IF EXISTS worker;
+DROP TABLE IF EXISTS client;
+
 CREATE TABLE worker (
                         ID SERIAL PRIMARY KEY,
                         NAME VARCHAR(1000) NOT NULL CHECK (LENGTH(NAME) >= 2),
